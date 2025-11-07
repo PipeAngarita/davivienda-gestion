@@ -1,0 +1,112 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(MEMBER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  projectsOwned Project[] @relation("ownedProjects")
+  memberships  ProjectMember[]
+  tasksCreated Task[]    @relation("createdTasks")
+  tasksAssigned Task[]   @relation("assignedTasks")
+  refreshTokens RefreshToken[] @relation("UserRefreshTokens") // <-- FIX: Nombre de relación añadido
+}
+
+model Project {
+  id          String          @id @default(uuid())
+  name        String
+  description String?
+  ownerId     String
+  owner       User            @relation("ownedProjects", fields: [ownerId], references: [id])
+  members     ProjectMember[]
+  columns     Column[]
+  tasks       Task[] @relation("ProjectTasks") // <-- FIX: Nombre de relación añadido
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model ProjectMember {
+  id        String   @id @default(uuid())
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  role      MemberRole @default(EDITOR)
+  joinedAt  DateTime @default(now())
+
+  @@unique([projectId, userId])
+}
+
+model Column {
+  id         String @id @default(uuid())
+  title      String
+  orderIndex Int
+  project    Project @relation(fields: [projectId], references: [id])
+  projectId  String
+  tasks      Task[]
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  columnId    String
+  column      Column   @relation(fields: [columnId], references: [id])
+  projectId   String
+  project     Project  @relation("ProjectTasks", fields: [projectId], references: [id]) // <-- FIX: Nombre de relación añadido
+  assigneeId  String?
+  assignee    User?    @relation("assignedTasks", fields: [assigneeId], references: [id])
+  priority    Priority @default(MEDIUM)
+  status      Status   @default(OPEN)
+  orderIndex  Int
+  createdById String
+  createdBy   User     @relation("createdTasks", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  user       User     @relation("UserRefreshTokens", fields: [userId], references: [id]) // <-- FIX: Nombre de relación añadido
+  userId     String
+  tokenHash  String
+  revoked    Boolean  @default(false)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  MEMBER
+}
+
+enum MemberRole {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum Status {
+  OPEN
+  IN_PROGRESS
+  DONE
+  BLOCKED
+}

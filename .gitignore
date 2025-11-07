@@ -1,0 +1,13 @@
+# Archivos de la raíz y de configuración
+.env
+.DS_Store
+
+# Carpetas de dependencias
+**/node_modules
+
+# Backend (Express/Prisma)
+/backend/dist # Archivos compilados
+
+# Frontend (Next.js)
+/frontend/.next
+/frontend/out
