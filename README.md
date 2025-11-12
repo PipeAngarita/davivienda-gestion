@@ -1,8 +1,8 @@
-# 🚀 Gestor de Tareas Davivienda (Full-Stack)
+#  Gestor de Tareas Davivienda (Full-Stack)
 
 Proyecto Full-Stack construido como prueba técnica, implementando un Tablero Kanban con funcionalidad de arrastrar y soltar (Drag and Drop) y autenticación JWT multi-rol.
 
-## ⚙️ Stack Tecnológico
+##  Stack Tecnológico
 
 | Componente | Tecnología | Propósito |
 | :--- | :--- | :--- |
@@ -13,13 +13,13 @@ Proyecto Full-Stack construido como prueba técnica, implementando un Tablero Ka
 | **Estilos** | Tailwind CSS | Framework de utilidades para diseño rápido y responsive. |
 | **Kanban** | React DND | Implementación de la funcionalidad Drag and Drop. |
 
-## 🛠️ Requisitos Previos
+##  Requisitos Previos
 
 Asegúrate de tener instalado:
 * [Node.js](https://nodejs.org/en/) (Versión 18+)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Para la base de datos PostgreSQL)
 
-## 📦 Instalación y Configuración (Paso a Paso)
+##  Instalación y Configuración (Paso a Paso)
 
 Clona este repositorio y sigue estos pasos:
 
@@ -69,12 +69,12 @@ La aplicación web se abrirá en http://localhost:3000.
 
 ---
 
-### 2. 🔑 Credenciales de Prueba
+### 2.  Credenciales de Prueba
 
 La tabla de credenciales debe ir al final, justo antes de cualquier sección de licenciamiento o contacto, para que sean fáciles de encontrar:
 
 ```markdown
-## 🔑 Credenciales de Prueba
+##  Credenciales de Prueba
 
 Utiliza las credenciales creadas por el *seed* para iniciar sesión:
 
